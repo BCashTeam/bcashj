@@ -242,7 +242,7 @@ public class BtcFormatTest {
 
         char c;
         i = BtcFormat.getCodeInstance(Locale.US).formatToCharacterIterator(new BigDecimal("0.19246362747414458"));
-        // formatted as "µDASH 192,463.63"
+        // formatted as "µBCASH 192,463.63"
         assertEquals(0, i.getBeginIndex());
         assertEquals(16, i.getEndIndex());
         int n = 0;
@@ -287,43 +287,43 @@ public class BtcFormatTest {
         BtcFormat us = BtcFormat.getSymbolInstance(Locale.US);
         BtcFormat usCoded = BtcFormat.getCodeInstance(Locale.US);
         // Coins
-        assertEquals(valueOf(200000000), us.parseObject("DASH2"));
+        assertEquals(valueOf(200000000), us.parseObject("BCASH2"));
         assertEquals(valueOf(200000000), us.parseObject("XDC2"));
         assertEquals(valueOf(200000000), us.parseObject("Đ2"));
         assertEquals(valueOf(200000000), us.parseObject("Ḏ2"));
         assertEquals(valueOf(200000000), us.parseObject("2"));
-        assertEquals(valueOf(200000000), usCoded.parseObject("DASH 2"));
+        assertEquals(valueOf(200000000), usCoded.parseObject("BCASH 2"));
         assertEquals(valueOf(200000000), usCoded.parseObject("XDC 2"));
         assertEquals(valueOf(200000000), us.parseObject("Đ2.0"));
         assertEquals(valueOf(200000000), us.parseObject("Ḏ2.0"));
         assertEquals(valueOf(200000000), us.parseObject("2.0"));
-        assertEquals(valueOf(200000000), us.parseObject("DASH2.0"));
+        assertEquals(valueOf(200000000), us.parseObject("BCASH2.0"));
         assertEquals(valueOf(200000000), us.parseObject("XDC2.0"));
         assertEquals(valueOf(200000000), usCoded.parseObject("Đ 2"));
         assertEquals(valueOf(200000000), usCoded.parseObject("Ḏ 2"));
         assertEquals(valueOf(200000000), usCoded.parseObject(" 2"));
-        assertEquals(valueOf(200000000), usCoded.parseObject("DASH 2"));
+        assertEquals(valueOf(200000000), usCoded.parseObject("BCASH 2"));
         assertEquals(valueOf(200000000), usCoded.parseObject("XDC 2"));
         assertEquals(valueOf(202222420000000L), us.parseObject("2,022,224.20"));
         assertEquals(valueOf(202222420000000L), us.parseObject("Đ2,022,224.20"));
         assertEquals(valueOf(202222420000000L), us.parseObject("Ḏ2,022,224.20"));
-        assertEquals(valueOf(202222420000000L), us.parseObject("DASH2,022,224.20"));
+        assertEquals(valueOf(202222420000000L), us.parseObject("BCASH2,022,224.20"));
         assertEquals(valueOf(202222420000000L), us.parseObject("XDC2,022,224.20"));
         assertEquals(valueOf(220200000000L), us.parseObject("2,202.0"));
         assertEquals(valueOf(2100000000000000L), us.parseObject("21000000.00000000"));
         // MilliCoins
-        assertEquals(valueOf(200000), usCoded.parseObject("mDASH 2"));
+        assertEquals(valueOf(200000), usCoded.parseObject("mBCASH 2"));
         assertEquals(valueOf(200000), usCoded.parseObject("mXDC 2"));
         assertEquals(valueOf(200000), usCoded.parseObject("mĐ 2"));
         assertEquals(valueOf(200000), usCoded.parseObject("mḎ 2"));
-        assertEquals(valueOf(200000), us.parseObject("mDASH2"));
+        assertEquals(valueOf(200000), us.parseObject("mBCASH2"));
         assertEquals(valueOf(200000), us.parseObject("mXDC2"));
         assertEquals(valueOf(200000), us.parseObject("₥Đ2"));
         assertEquals(valueOf(200000), us.parseObject("₥Ḏ2"));
         assertEquals(valueOf(200000), us.parseObject("₥2"));
-        assertEquals(valueOf(200000), usCoded.parseObject("₥DASH 2.00"));
+        assertEquals(valueOf(200000), usCoded.parseObject("₥BCASH 2.00"));
         assertEquals(valueOf(200000), usCoded.parseObject("₥XDC 2.00"));
-        assertEquals(valueOf(200000), usCoded.parseObject("₥DASH 2"));
+        assertEquals(valueOf(200000), usCoded.parseObject("₥BCASH 2"));
         assertEquals(valueOf(200000), usCoded.parseObject("₥XDC 2"));
         assertEquals(valueOf(200000), usCoded.parseObject("₥Đ 2"));
         assertEquals(valueOf(200000), usCoded.parseObject("₥Ḏ 2"));
@@ -332,18 +332,18 @@ public class BtcFormatTest {
         assertEquals(valueOf(202222420000L), us.parseObject("₥Ḏ2,022,224.20"));
         assertEquals(valueOf(202222400000L), us.parseObject("mĐ2,022,224"));
         assertEquals(valueOf(202222420000L), us.parseObject("mḎ2,022,224.20"));
-        assertEquals(valueOf(202222400000L), us.parseObject("₥DASH2,022,224"));
+        assertEquals(valueOf(202222400000L), us.parseObject("₥BCASH2,022,224"));
         assertEquals(valueOf(202222400000L), us.parseObject("₥XDC2,022,224"));
-        assertEquals(valueOf(202222400000L), us.parseObject("mDASH2,022,224"));
+        assertEquals(valueOf(202222400000L), us.parseObject("mBCASH2,022,224"));
         assertEquals(valueOf(202222400000L), us.parseObject("mXDC2,022,224"));
         assertEquals(valueOf(202222420000L), us.parseObject("₥2,022,224.20"));
         assertEquals(valueOf(202222400000L), usCoded.parseObject("₥Đ 2,022,224"));
         assertEquals(valueOf(202222420000L), usCoded.parseObject("₥Ḏ 2,022,224.20"));
         assertEquals(valueOf(202222400000L), usCoded.parseObject("mĐ 2,022,224"));
         assertEquals(valueOf(202222420000L), usCoded.parseObject("mḎ 2,022,224.20"));
-        assertEquals(valueOf(202222400000L), usCoded.parseObject("₥DASH 2,022,224"));
+        assertEquals(valueOf(202222400000L), usCoded.parseObject("₥BCASH 2,022,224"));
         assertEquals(valueOf(202222400000L), usCoded.parseObject("₥XDC 2,022,224"));
-        assertEquals(valueOf(202222400000L), usCoded.parseObject("mDASH 2,022,224"));
+        assertEquals(valueOf(202222400000L), usCoded.parseObject("mBCASH 2,022,224"));
         assertEquals(valueOf(202222400000L), usCoded.parseObject("mXDC 2,022,224"));
         assertEquals(valueOf(202222420000L), usCoded.parseObject("₥ 2,022,224.20"));
         // Microcoins
@@ -351,20 +351,20 @@ public class BtcFormatTest {
         assertEquals(valueOf(435), us.parseObject("uḎ4.35"));
         assertEquals(valueOf(435), us.parseObject("uĐ4.35"));
         assertEquals(valueOf(435), us.parseObject("µḎ4.35"));
-        assertEquals(valueOf(435), us.parseObject("uDASH4.35"));
+        assertEquals(valueOf(435), us.parseObject("uBCASH4.35"));
         assertEquals(valueOf(435), us.parseObject("uXDC4.35"));
-        assertEquals(valueOf(435), us.parseObject("µDASH4.35"));
+        assertEquals(valueOf(435), us.parseObject("µBCASH4.35"));
         assertEquals(valueOf(435), us.parseObject("µXDC4.35"));
-        assertEquals(valueOf(435), usCoded.parseObject("uDASH 4.35"));
+        assertEquals(valueOf(435), usCoded.parseObject("uBCASH 4.35"));
         assertEquals(valueOf(435), usCoded.parseObject("uXDC 4.35"));
-        assertEquals(valueOf(435), usCoded.parseObject("µDASH 4.35"));
+        assertEquals(valueOf(435), usCoded.parseObject("µBCASH 4.35"));
         assertEquals(valueOf(435), usCoded.parseObject("µXDC 4.35"));
         // fractional satoshi; round up
-        assertEquals(valueOf(435), us.parseObject("uDASH4.345"));
+        assertEquals(valueOf(435), us.parseObject("uBCASH4.345"));
         assertEquals(valueOf(435), us.parseObject("uXDC4.345"));
         // negative with mu symbol
         assertEquals(valueOf(-1), usCoded.parseObject("(µĐ 0.01)"));
-        assertEquals(valueOf(-10), us.parseObject("(µDASH0.100)"));
+        assertEquals(valueOf(-10), us.parseObject("(µBCASH0.100)"));
         assertEquals(valueOf(-10), us.parseObject("(µXDC0.100)"));
 
         // Same thing with addition of custom code, symbol
@@ -373,57 +373,57 @@ public class BtcFormatTest {
                             pattern("¤ #,##0.00").build();
         // Coins
         assertEquals(valueOf(200000000), us.parseObject("XYZ2"));
-        assertEquals(valueOf(200000000), us.parseObject("DASH2"));
+        assertEquals(valueOf(200000000), us.parseObject("BCASH2"));
         assertEquals(valueOf(200000000), us.parseObject("XDC2"));
         assertEquals(valueOf(200000000), us.parseObject("£2"));
         assertEquals(valueOf(200000000), us.parseObject("Đ2"));
         assertEquals(valueOf(200000000), us.parseObject("Ḏ2"));
         assertEquals(valueOf(200000000), us.parseObject("2"));
         assertEquals(valueOf(200000000), usCoded.parseObject("XYZ 2"));
-        assertEquals(valueOf(200000000), usCoded.parseObject("DASH 2"));
+        assertEquals(valueOf(200000000), usCoded.parseObject("BCASH 2"));
         assertEquals(valueOf(200000000), usCoded.parseObject("XDC 2"));
         assertEquals(valueOf(200000000), us.parseObject("£2.0"));
         assertEquals(valueOf(200000000), us.parseObject("Đ2.0"));
         assertEquals(valueOf(200000000), us.parseObject("Ḏ2.0"));
         assertEquals(valueOf(200000000), us.parseObject("2.0"));
         assertEquals(valueOf(200000000), us.parseObject("XYZ2.0"));
-        assertEquals(valueOf(200000000), us.parseObject("DASH2.0"));
+        assertEquals(valueOf(200000000), us.parseObject("BCASH2.0"));
         assertEquals(valueOf(200000000), us.parseObject("XDC2.0"));
         assertEquals(valueOf(200000000), usCoded.parseObject("£ 2"));
         assertEquals(valueOf(200000000), usCoded.parseObject("Đ 2"));
         assertEquals(valueOf(200000000), usCoded.parseObject("Ḏ 2"));
         assertEquals(valueOf(200000000), usCoded.parseObject(" 2"));
         assertEquals(valueOf(200000000), usCoded.parseObject("XYZ 2"));
-        assertEquals(valueOf(200000000), usCoded.parseObject("DASH 2"));
+        assertEquals(valueOf(200000000), usCoded.parseObject("BCASH 2"));
         assertEquals(valueOf(200000000), usCoded.parseObject("XDC 2"));
         assertEquals(valueOf(202222420000000L), us.parseObject("2,022,224.20"));
         assertEquals(valueOf(202222420000000L), us.parseObject("£2,022,224.20"));
         assertEquals(valueOf(202222420000000L), us.parseObject("Đ2,022,224.20"));
         assertEquals(valueOf(202222420000000L), us.parseObject("Ḏ2,022,224.20"));
         assertEquals(valueOf(202222420000000L), us.parseObject("XYZ2,022,224.20"));
-        assertEquals(valueOf(202222420000000L), us.parseObject("DASH2,022,224.20"));
+        assertEquals(valueOf(202222420000000L), us.parseObject("BCASH2,022,224.20"));
         assertEquals(valueOf(202222420000000L), us.parseObject("XDC2,022,224.20"));
         assertEquals(valueOf(220200000000L), us.parseObject("2,202.0"));
         assertEquals(valueOf(2100000000000000L), us.parseObject("21000000.00000000"));
         // MilliCoins
         assertEquals(valueOf(200000), usCoded.parseObject("mXYZ 2"));
-        assertEquals(valueOf(200000), usCoded.parseObject("mDASH 2"));
+        assertEquals(valueOf(200000), usCoded.parseObject("mBCASH 2"));
         assertEquals(valueOf(200000), usCoded.parseObject("mXDC 2"));
         assertEquals(valueOf(200000), usCoded.parseObject("m£ 2"));
         assertEquals(valueOf(200000), usCoded.parseObject("mĐ 2"));
         assertEquals(valueOf(200000), usCoded.parseObject("mḎ 2"));
         assertEquals(valueOf(200000), us.parseObject("mXYZ2"));
-        assertEquals(valueOf(200000), us.parseObject("mDASH2"));
+        assertEquals(valueOf(200000), us.parseObject("mBCASH2"));
         assertEquals(valueOf(200000), us.parseObject("mXDC2"));
         assertEquals(valueOf(200000), us.parseObject("₥£2"));
         assertEquals(valueOf(200000), us.parseObject("₥Đ2"));
         assertEquals(valueOf(200000), us.parseObject("₥Ḏ2"));
         assertEquals(valueOf(200000), us.parseObject("₥2"));
         assertEquals(valueOf(200000), usCoded.parseObject("₥XYZ 2.00"));
-        assertEquals(valueOf(200000), usCoded.parseObject("₥DASH 2.00"));
+        assertEquals(valueOf(200000), usCoded.parseObject("₥BCASH 2.00"));
         assertEquals(valueOf(200000), usCoded.parseObject("₥XDC 2.00"));
         assertEquals(valueOf(200000), usCoded.parseObject("₥XYZ 2"));
-        assertEquals(valueOf(200000), usCoded.parseObject("₥DASH 2"));
+        assertEquals(valueOf(200000), usCoded.parseObject("₥BCASH 2"));
         assertEquals(valueOf(200000), usCoded.parseObject("₥XDC 2"));
         assertEquals(valueOf(200000), usCoded.parseObject("₥£ 2"));
         assertEquals(valueOf(200000), usCoded.parseObject("₥Đ 2"));
@@ -436,10 +436,10 @@ public class BtcFormatTest {
         assertEquals(valueOf(202222400000L), us.parseObject("mĐ2,022,224"));
         assertEquals(valueOf(202222420000L), us.parseObject("mḎ2,022,224.20"));
         assertEquals(valueOf(202222400000L), us.parseObject("₥XYZ2,022,224"));
-        assertEquals(valueOf(202222400000L), us.parseObject("₥DASH2,022,224"));
+        assertEquals(valueOf(202222400000L), us.parseObject("₥BCASH2,022,224"));
         assertEquals(valueOf(202222400000L), us.parseObject("₥XDC2,022,224"));
         assertEquals(valueOf(202222400000L), us.parseObject("mXYZ2,022,224"));
-        assertEquals(valueOf(202222400000L), us.parseObject("mDASH2,022,224"));
+        assertEquals(valueOf(202222400000L), us.parseObject("mBCASH2,022,224"));
         assertEquals(valueOf(202222400000L), us.parseObject("mXDC2,022,224"));
         assertEquals(valueOf(202222420000L), us.parseObject("₥2,022,224.20"));
         assertEquals(valueOf(202222400000L), usCoded.parseObject("₥£ 2,022,224"));
@@ -449,10 +449,10 @@ public class BtcFormatTest {
         assertEquals(valueOf(202222400000L), usCoded.parseObject("mĐ 2,022,224"));
         assertEquals(valueOf(202222420000L), usCoded.parseObject("mḎ 2,022,224.20"));
         assertEquals(valueOf(202222400000L), usCoded.parseObject("₥XYZ 2,022,224"));
-        assertEquals(valueOf(202222400000L), usCoded.parseObject("₥DASH 2,022,224"));
+        assertEquals(valueOf(202222400000L), usCoded.parseObject("₥BCASH 2,022,224"));
         assertEquals(valueOf(202222400000L), usCoded.parseObject("₥XDC 2,022,224"));
         assertEquals(valueOf(202222400000L), usCoded.parseObject("mXYZ 2,022,224"));
-        assertEquals(valueOf(202222400000L), usCoded.parseObject("mDASH 2,022,224"));
+        assertEquals(valueOf(202222400000L), usCoded.parseObject("mBCASH 2,022,224"));
         assertEquals(valueOf(202222400000L), usCoded.parseObject("mXDC 2,022,224"));
         assertEquals(valueOf(202222420000L), usCoded.parseObject("₥ 2,022,224.20"));
         // Microcoins
@@ -463,26 +463,26 @@ public class BtcFormatTest {
         assertEquals(valueOf(435), us.parseObject("uĐ4.35"));
         assertEquals(valueOf(435), us.parseObject("µḎ4.35"));
         assertEquals(valueOf(435), us.parseObject("uXYZ4.35"));
-        assertEquals(valueOf(435), us.parseObject("uDASH4.35"));
+        assertEquals(valueOf(435), us.parseObject("uBCASH4.35"));
         assertEquals(valueOf(435), us.parseObject("uXDC4.35"));
         assertEquals(valueOf(435), us.parseObject("µXYZ4.35"));
-        assertEquals(valueOf(435), us.parseObject("µDASH4.35"));
+        assertEquals(valueOf(435), us.parseObject("µBCASH4.35"));
         assertEquals(valueOf(435), us.parseObject("µXDC4.35"));
         assertEquals(valueOf(435), usCoded.parseObject("uXYZ 4.35"));
-        assertEquals(valueOf(435), usCoded.parseObject("uDASH 4.35"));
+        assertEquals(valueOf(435), usCoded.parseObject("uBCASH 4.35"));
         assertEquals(valueOf(435), usCoded.parseObject("uXDC 4.35"));
         assertEquals(valueOf(435), usCoded.parseObject("µXYZ 4.35"));
-        assertEquals(valueOf(435), usCoded.parseObject("µDASH 4.35"));
+        assertEquals(valueOf(435), usCoded.parseObject("µBCASH 4.35"));
         assertEquals(valueOf(435), usCoded.parseObject("µXDC 4.35"));
         // fractional satoshi; round up
         assertEquals(valueOf(435), us.parseObject("uXYZ4.345"));
-        assertEquals(valueOf(435), us.parseObject("uDASH4.345"));
+        assertEquals(valueOf(435), us.parseObject("uBCASH4.345"));
         assertEquals(valueOf(435), us.parseObject("uXDC4.345"));
         // negative with mu symbol
         assertEquals(valueOf(-1), usCoded.parseObject("µ£ -0.01"));
         assertEquals(valueOf(-1), usCoded.parseObject("µĐ -0.01"));
         assertEquals(valueOf(-10), us.parseObject("(µXYZ0.100)"));
-        assertEquals(valueOf(-10), us.parseObject("(µDASH0.100)"));
+        assertEquals(valueOf(-10), us.parseObject("(µBCASH0.100)"));
         assertEquals(valueOf(-10), us.parseObject("(µXDC0.100)"));
 
         // parse() method as opposed to parseObject
@@ -497,8 +497,8 @@ public class BtcFormatTest {
         BtcFormat cp = BtcFormat.getCodeInstance(Locale.US);
         BtcFormat sp = BtcFormat.getSymbolInstance(Locale.US);
         // coin
-        assertEquals(parseCoin("1"), cp.parseObject("DASH 1.00"));
-        assertEquals(parseCoin("1"), sp.parseObject("DASH1.00"));
+        assertEquals(parseCoin("1"), cp.parseObject("BCASH 1.00"));
+        assertEquals(parseCoin("1"), sp.parseObject("BCASH1.00"));
         assertEquals(parseCoin("1"), cp.parseObject("Đ 1.00"));
         assertEquals(parseCoin("1"), sp.parseObject("Đ1.00"));
         assertEquals(parseCoin("1"), cp.parseObject("D⃦ 1.00"));
@@ -506,16 +506,16 @@ public class BtcFormatTest {
         assertEquals(parseCoin("1"), cp.parseObject("Ḏ 1.00"));
         assertEquals(parseCoin("1"), sp.parseObject("Ḏ1.00"));
         // milli
-        assertEquals(parseCoin("0.001"), cp.parseObject("mDASH 1.00"));
-        assertEquals(parseCoin("0.001"), sp.parseObject("mDASH1.00"));
+        assertEquals(parseCoin("0.001"), cp.parseObject("mBCASH 1.00"));
+        assertEquals(parseCoin("0.001"), sp.parseObject("mBCASH1.00"));
         assertEquals(parseCoin("0.001"), cp.parseObject("mĐ 1.00"));
         assertEquals(parseCoin("0.001"), sp.parseObject("mĐ1.00"));
         assertEquals(parseCoin("0.001"), cp.parseObject("mD⃦ 1.00"));
         assertEquals(parseCoin("0.001"), sp.parseObject("mD⃦1.00"));
         assertEquals(parseCoin("0.001"), cp.parseObject("mḎ 1.00"));
         assertEquals(parseCoin("0.001"), sp.parseObject("mḎ1.00"));
-        assertEquals(parseCoin("0.001"), cp.parseObject("₥DASH 1.00"));
-        assertEquals(parseCoin("0.001"), sp.parseObject("₥DASH1.00"));
+        assertEquals(parseCoin("0.001"), cp.parseObject("₥BCASH 1.00"));
+        assertEquals(parseCoin("0.001"), sp.parseObject("₥BCASH1.00"));
         assertEquals(parseCoin("0.001"), cp.parseObject("₥Đ 1.00"));
         assertEquals(parseCoin("0.001"), sp.parseObject("₥Đ1.00"));
         assertEquals(parseCoin("0.001"), cp.parseObject("₥D⃦ 1.00"));
@@ -523,16 +523,16 @@ public class BtcFormatTest {
         assertEquals(parseCoin("0.001"), cp.parseObject("₥Ḏ 1.00"));
         assertEquals(parseCoin("0.001"), sp.parseObject("₥Ḏ1.00"));
         // micro
-        assertEquals(parseCoin("0.000001"), cp.parseObject("uDASH 1.00"));
-        assertEquals(parseCoin("0.000001"), sp.parseObject("uDASH1.00"));
+        assertEquals(parseCoin("0.000001"), cp.parseObject("uBCASH 1.00"));
+        assertEquals(parseCoin("0.000001"), sp.parseObject("uBCASH1.00"));
         assertEquals(parseCoin("0.000001"), cp.parseObject("uĐ 1.00"));
         assertEquals(parseCoin("0.000001"), sp.parseObject("uĐ1.00"));
         assertEquals(parseCoin("0.000001"), cp.parseObject("uD⃦ 1.00"));
         assertEquals(parseCoin("0.000001"), sp.parseObject("uD⃦1.00"));
         assertEquals(parseCoin("0.000001"), cp.parseObject("uḎ 1.00"));
         assertEquals(parseCoin("0.000001"), sp.parseObject("uḎ1.00"));
-        assertEquals(parseCoin("0.000001"), cp.parseObject("µDASH 1.00"));
-        assertEquals(parseCoin("0.000001"), sp.parseObject("µDASH1.00"));
+        assertEquals(parseCoin("0.000001"), cp.parseObject("µBCASH 1.00"));
+        assertEquals(parseCoin("0.000001"), sp.parseObject("µBCASH1.00"));
         assertEquals(parseCoin("0.000001"), cp.parseObject("µĐ 1.00"));
         assertEquals(parseCoin("0.000001"), sp.parseObject("µĐ1.00"));
         assertEquals(parseCoin("0.000001"), cp.parseObject("µD⃦ 1.00"));
@@ -540,16 +540,16 @@ public class BtcFormatTest {
         assertEquals(parseCoin("0.000001"), cp.parseObject("µḎ 1.00"));
         assertEquals(parseCoin("0.000001"), sp.parseObject("µḎ1.00"));
         // satoshi
-        assertEquals(parseCoin("0.00000001"), cp.parseObject("uDASH 0.01"));
-        assertEquals(parseCoin("0.00000001"), sp.parseObject("uDASH0.01"));
+        assertEquals(parseCoin("0.00000001"), cp.parseObject("uBCASH 0.01"));
+        assertEquals(parseCoin("0.00000001"), sp.parseObject("uBCASH0.01"));
         assertEquals(parseCoin("0.00000001"), cp.parseObject("uĐ 0.01"));
         assertEquals(parseCoin("0.00000001"), sp.parseObject("uĐ0.01"));
         assertEquals(parseCoin("0.00000001"), cp.parseObject("uD⃦ 0.01"));
         assertEquals(parseCoin("0.00000001"), sp.parseObject("uD⃦0.01"));
         assertEquals(parseCoin("0.00000001"), cp.parseObject("uḎ 0.01"));
         assertEquals(parseCoin("0.00000001"), sp.parseObject("uḎ0.01"));
-        assertEquals(parseCoin("0.00000001"), cp.parseObject("µDASH 0.01"));
-        assertEquals(parseCoin("0.00000001"), sp.parseObject("µDASH0.01"));
+        assertEquals(parseCoin("0.00000001"), cp.parseObject("µBCASH 0.01"));
+        assertEquals(parseCoin("0.00000001"), sp.parseObject("µBCASH0.01"));
         assertEquals(parseCoin("0.00000001"), cp.parseObject("µĐ 0.01"));
         assertEquals(parseCoin("0.00000001"), sp.parseObject("µĐ0.01"));
         assertEquals(parseCoin("0.00000001"), cp.parseObject("µD⃦ 0.01"));
@@ -557,16 +557,16 @@ public class BtcFormatTest {
         assertEquals(parseCoin("0.00000001"), cp.parseObject("µḎ 0.01"));
         assertEquals(parseCoin("0.00000001"), sp.parseObject("µḎ0.01"));
         // cents
-        assertEquals(parseCoin("0.01234567"), cp.parseObject("cDASH 1.234567"));
-        assertEquals(parseCoin("0.01234567"), sp.parseObject("cDASH1.234567"));
+        assertEquals(parseCoin("0.01234567"), cp.parseObject("cBCASH 1.234567"));
+        assertEquals(parseCoin("0.01234567"), sp.parseObject("cBCASH1.234567"));
         assertEquals(parseCoin("0.01234567"), cp.parseObject("cĐ 1.234567"));
         assertEquals(parseCoin("0.01234567"), sp.parseObject("cĐ1.234567"));
         assertEquals(parseCoin("0.01234567"), cp.parseObject("cD⃦ 1.234567"));
         assertEquals(parseCoin("0.01234567"), sp.parseObject("cD⃦1.234567"));
         assertEquals(parseCoin("0.01234567"), cp.parseObject("cḎ 1.234567"));
         assertEquals(parseCoin("0.01234567"), sp.parseObject("cḎ1.234567"));
-        assertEquals(parseCoin("0.01234567"), cp.parseObject("¢DASH 1.234567"));
-        assertEquals(parseCoin("0.01234567"), sp.parseObject("¢DASH1.234567"));
+        assertEquals(parseCoin("0.01234567"), cp.parseObject("¢BCASH 1.234567"));
+        assertEquals(parseCoin("0.01234567"), sp.parseObject("¢BCASH1.234567"));
         assertEquals(parseCoin("0.01234567"), cp.parseObject("¢Đ 1.234567"));
         assertEquals(parseCoin("0.01234567"), sp.parseObject("¢Đ1.234567"));
         assertEquals(parseCoin("0.01234567"), cp.parseObject("¢D⃦ 1.234567"));
@@ -574,8 +574,8 @@ public class BtcFormatTest {
         assertEquals(parseCoin("0.01234567"), cp.parseObject("¢Ḏ 1.234567"));
         assertEquals(parseCoin("0.01234567"), sp.parseObject("¢Ḏ1.234567"));
         // dekacoins
-        assertEquals(parseCoin("12.34567"), cp.parseObject("daDASH 1.234567"));
-        assertEquals(parseCoin("12.34567"), sp.parseObject("daDASH1.234567"));
+        assertEquals(parseCoin("12.34567"), cp.parseObject("daBCASH 1.234567"));
+        assertEquals(parseCoin("12.34567"), sp.parseObject("daBCASH1.234567"));
         assertEquals(parseCoin("12.34567"), cp.parseObject("daĐ 1.234567"));
         assertEquals(parseCoin("12.34567"), sp.parseObject("daĐ1.234567"));
         assertEquals(parseCoin("12.34567"), cp.parseObject("daD⃦ 1.234567"));
@@ -583,8 +583,8 @@ public class BtcFormatTest {
         assertEquals(parseCoin("12.34567"), cp.parseObject("daḎ 1.234567"));
         assertEquals(parseCoin("12.34567"), sp.parseObject("daḎ1.234567"));
         // hectocoins
-        assertEquals(parseCoin("123.4567"), cp.parseObject("hDASH 1.234567"));
-        assertEquals(parseCoin("123.4567"), sp.parseObject("hDASH1.234567"));
+        assertEquals(parseCoin("123.4567"), cp.parseObject("hBCASH 1.234567"));
+        assertEquals(parseCoin("123.4567"), sp.parseObject("hBCASH1.234567"));
         assertEquals(parseCoin("123.4567"), cp.parseObject("hĐ 1.234567"));
         assertEquals(parseCoin("123.4567"), sp.parseObject("hĐ1.234567"));
         assertEquals(parseCoin("123.4567"), cp.parseObject("hD⃦ 1.234567"));
@@ -592,8 +592,8 @@ public class BtcFormatTest {
         assertEquals(parseCoin("123.4567"), cp.parseObject("hḎ 1.234567"));
         assertEquals(parseCoin("123.4567"), sp.parseObject("hḎ1.234567"));
         // kilocoins
-        assertEquals(parseCoin("1234.567"), cp.parseObject("kDASH 1.234567"));
-        assertEquals(parseCoin("1234.567"), sp.parseObject("kDASH1.234567"));
+        assertEquals(parseCoin("1234.567"), cp.parseObject("kBCASH 1.234567"));
+        assertEquals(parseCoin("1234.567"), sp.parseObject("kBCASH1.234567"));
         assertEquals(parseCoin("1234.567"), cp.parseObject("kĐ 1.234567"));
         assertEquals(parseCoin("1234.567"), sp.parseObject("kĐ1.234567"));
         assertEquals(parseCoin("1234.567"), cp.parseObject("kD⃦ 1.234567"));
@@ -601,8 +601,8 @@ public class BtcFormatTest {
         assertEquals(parseCoin("1234.567"), cp.parseObject("kḎ 1.234567"));
         assertEquals(parseCoin("1234.567"), sp.parseObject("kḎ1.234567"));
         // megacoins
-        assertEquals(parseCoin("1234567"), cp.parseObject("MDASH 1.234567"));
-        assertEquals(parseCoin("1234567"), sp.parseObject("MDASH1.234567"));
+        assertEquals(parseCoin("1234567"), cp.parseObject("MBCASH 1.234567"));
+        assertEquals(parseCoin("1234567"), sp.parseObject("MBCASH1.234567"));
         assertEquals(parseCoin("1234567"), cp.parseObject("MĐ 1.234567"));
         assertEquals(parseCoin("1234567"), sp.parseObject("MĐ1.234567"));
         assertEquals(parseCoin("1234567"), cp.parseObject("MD⃦ 1.234567"));
@@ -638,7 +638,7 @@ public class BtcFormatTest {
           substring(currField.getBeginIndex(), currField.getEndIndex())
         );
         assertEquals(
-          "µDASH",
+          "µBCASH",
           deCoded.format(valueOf(98765432123L), new StringBuffer(), currField).
           substring(currField.getBeginIndex(), currField.getEndIndex())
         );
@@ -648,7 +648,7 @@ public class BtcFormatTest {
           substring(currField.getBeginIndex(), currField.getEndIndex())
         );
         assertEquals(
-          "mDASH",
+          "mBCASH",
           deCoded.format(valueOf(98765432000L), new StringBuffer(), currField).
           substring(currField.getBeginIndex(), currField.getEndIndex())
         );
@@ -658,7 +658,7 @@ public class BtcFormatTest {
           substring(currField.getBeginIndex(), currField.getEndIndex())
         );
         assertEquals(
-          "DASH",
+          "BCASH",
           deCoded.format(valueOf(98765000000L), new StringBuffer(), currField).
           substring(currField.getBeginIndex(), currField.getEndIndex())
         );
@@ -668,20 +668,20 @@ public class BtcFormatTest {
     public void currencyCodeTest() {
         /* Insert needed space AFTER currency-code */
         BtcFormat usCoded = BtcFormat.getCodeInstance(Locale.US);
-        assertEquals("µDASH 0.01", usCoded.format(1));
-        assertEquals("DASH 1.00", usCoded.format(COIN));
+        assertEquals("µBCASH 0.01", usCoded.format(1));
+        assertEquals("BCASH 1.00", usCoded.format(COIN));
 
         /* Do not insert unneeded space BEFORE currency-code */
         BtcFormat frCoded = BtcFormat.getCodeInstance(Locale.FRANCE);
-        assertEquals("0,01 µDASH", frCoded.format(1));
-        assertEquals("1,00 DASH", frCoded.format(COIN));
+        assertEquals("0,01 µBCASH", frCoded.format(1));
+        assertEquals("1,00 BCASH", frCoded.format(COIN));
 
         /* Insert needed space BEFORE currency-code: no known currency pattern does this? */
 
         /* Do not insert unneeded space AFTER currency-code */
         BtcFormat deCoded = BtcFormat.getCodeInstance(Locale.ITALY);
-        assertEquals("µDASH 0,01", deCoded.format(1));
-        assertEquals("DASH 1,00", deCoded.format(COIN));
+        assertEquals("µBCASH 0,01", deCoded.format(1));
+        assertEquals("BCASH 1,00", deCoded.format(COIN));
     }
 
     @Test
@@ -809,104 +809,104 @@ public class BtcFormatTest {
         BtcFormat codedZero = BtcFormat.getCodeInstance(Locale.US, 0);
         BtcFormat symbolZero = BtcFormat.getSymbolInstance(Locale.US, 0);
         assertEquals("Đ1", symbolZero.format(COIN));
-        assertEquals("DASH 1", codedZero.format(COIN));
+        assertEquals("BCASH 1", codedZero.format(COIN));
         assertEquals("µĐ1,000,000", symbolZero.format(COIN.subtract(SATOSHI)));
-        assertEquals("µDASH 1,000,000", codedZero.format(COIN.subtract(SATOSHI)));
+        assertEquals("µBCASH 1,000,000", codedZero.format(COIN.subtract(SATOSHI)));
         assertEquals("µĐ1,000,000", symbolZero.format(COIN.subtract(Coin.valueOf(50))));
-        assertEquals("µDASH 1,000,000", codedZero.format(COIN.subtract(Coin.valueOf(50))));
+        assertEquals("µBCASH 1,000,000", codedZero.format(COIN.subtract(Coin.valueOf(50))));
         assertEquals("µĐ999,999", symbolZero.format(COIN.subtract(Coin.valueOf(51))));
-        assertEquals("µDASH 999,999", codedZero.format(COIN.subtract(Coin.valueOf(51))));
+        assertEquals("µBCASH 999,999", codedZero.format(COIN.subtract(Coin.valueOf(51))));
         assertEquals("Đ1,000", symbolZero.format(COIN.multiply(1000)));
-        assertEquals("DASH 1,000", codedZero.format(COIN.multiply(1000)));
+        assertEquals("BCASH 1,000", codedZero.format(COIN.multiply(1000)));
         assertEquals("µĐ1", symbolZero.format(Coin.valueOf(100)));
-        assertEquals("µDASH 1", codedZero.format(Coin.valueOf(100)));
+        assertEquals("µBCASH 1", codedZero.format(Coin.valueOf(100)));
         assertEquals("µĐ1", symbolZero.format(Coin.valueOf(50)));
-        assertEquals("µDASH 1", codedZero.format(Coin.valueOf(50)));
+        assertEquals("µBCASH 1", codedZero.format(Coin.valueOf(50)));
         assertEquals("µĐ0", symbolZero.format(Coin.valueOf(49)));
-        assertEquals("µDASH 0", codedZero.format(Coin.valueOf(49)));
+        assertEquals("µBCASH 0", codedZero.format(Coin.valueOf(49)));
         assertEquals("µĐ0", symbolZero.format(Coin.valueOf(1)));
-        assertEquals("µDASH 0", codedZero.format(Coin.valueOf(1)));
+        assertEquals("µBCASH 0", codedZero.format(Coin.valueOf(1)));
         assertEquals("µĐ500,000", symbolZero.format(Coin.valueOf(49999999)));
-        assertEquals("µDASH 500,000", codedZero.format(Coin.valueOf(49999999)));
+        assertEquals("µBCASH 500,000", codedZero.format(Coin.valueOf(49999999)));
 
         assertEquals("µĐ499,500", symbolZero.format(Coin.valueOf(49950000)));
-        assertEquals("µDASH 499,500", codedZero.format(Coin.valueOf(49950000)));
+        assertEquals("µBCASH 499,500", codedZero.format(Coin.valueOf(49950000)));
         assertEquals("µĐ499,500", symbolZero.format(Coin.valueOf(49949999)));
-        assertEquals("µDASH 499,500", codedZero.format(Coin.valueOf(49949999)));
+        assertEquals("µBCASH 499,500", codedZero.format(Coin.valueOf(49949999)));
         assertEquals("µĐ500,490", symbolZero.format(Coin.valueOf(50049000)));
-        assertEquals("µDASH 500,490", codedZero.format(Coin.valueOf(50049000)));
+        assertEquals("µBCASH 500,490", codedZero.format(Coin.valueOf(50049000)));
         assertEquals("µĐ500,490", symbolZero.format(Coin.valueOf(50049001)));
-        assertEquals("µDASH 500,490", codedZero.format(Coin.valueOf(50049001)));
+        assertEquals("µBCASH 500,490", codedZero.format(Coin.valueOf(50049001)));
         assertEquals("µĐ500,000", symbolZero.format(Coin.valueOf(49999950)));
-        assertEquals("µDASH 500,000", codedZero.format(Coin.valueOf(49999950)));
+        assertEquals("µBCASH 500,000", codedZero.format(Coin.valueOf(49999950)));
         assertEquals("µĐ499,999", symbolZero.format(Coin.valueOf(49999949)));
-        assertEquals("µDASH 499,999", codedZero.format(Coin.valueOf(49999949)));
+        assertEquals("µBCASH 499,999", codedZero.format(Coin.valueOf(49999949)));
         assertEquals("µĐ500,000", symbolZero.format(Coin.valueOf(50000049)));
-        assertEquals("µDASH 500,000", codedZero.format(Coin.valueOf(50000049)));
+        assertEquals("µBCASH 500,000", codedZero.format(Coin.valueOf(50000049)));
         assertEquals("µĐ500,001", symbolZero.format(Coin.valueOf(50000050)));
-        assertEquals("µDASH 500,001", codedZero.format(Coin.valueOf(50000050)));
+        assertEquals("µBCASH 500,001", codedZero.format(Coin.valueOf(50000050)));
 
         BtcFormat codedTwo = BtcFormat.getCodeInstance(Locale.US, 2);
         BtcFormat symbolTwo = BtcFormat.getSymbolInstance(Locale.US, 2);
         assertEquals("Đ1.00", symbolTwo.format(COIN));
-        assertEquals("DASH 1.00", codedTwo.format(COIN));
+        assertEquals("BCASH 1.00", codedTwo.format(COIN));
         assertEquals("µĐ999,999.99", symbolTwo.format(COIN.subtract(SATOSHI)));
-        assertEquals("µDASH 999,999.99", codedTwo.format(COIN.subtract(SATOSHI)));
+        assertEquals("µBCASH 999,999.99", codedTwo.format(COIN.subtract(SATOSHI)));
         assertEquals("Đ1,000.00", symbolTwo.format(COIN.multiply(1000)));
-        assertEquals("DASH 1,000.00", codedTwo.format(COIN.multiply(1000)));
+        assertEquals("BCASH 1,000.00", codedTwo.format(COIN.multiply(1000)));
         assertEquals("µĐ1.00", symbolTwo.format(Coin.valueOf(100)));
-        assertEquals("µDASH 1.00", codedTwo.format(Coin.valueOf(100)));
+        assertEquals("µBCASH 1.00", codedTwo.format(Coin.valueOf(100)));
         assertEquals("µĐ0.50", symbolTwo.format(Coin.valueOf(50)));
-        assertEquals("µDASH 0.50", codedTwo.format(Coin.valueOf(50)));
+        assertEquals("µBCASH 0.50", codedTwo.format(Coin.valueOf(50)));
         assertEquals("µĐ0.49", symbolTwo.format(Coin.valueOf(49)));
-        assertEquals("µDASH 0.49", codedTwo.format(Coin.valueOf(49)));
+        assertEquals("µBCASH 0.49", codedTwo.format(Coin.valueOf(49)));
         assertEquals("µĐ0.01", symbolTwo.format(Coin.valueOf(1)));
-        assertEquals("µDASH 0.01", codedTwo.format(Coin.valueOf(1)));
+        assertEquals("µBCASH 0.01", codedTwo.format(Coin.valueOf(1)));
 
         BtcFormat codedThree = BtcFormat.getCodeInstance(Locale.US, 3);
         BtcFormat symbolThree = BtcFormat.getSymbolInstance(Locale.US, 3);
         assertEquals("Đ1.000", symbolThree.format(COIN));
-        assertEquals("DASH 1.000", codedThree.format(COIN));
+        assertEquals("BCASH 1.000", codedThree.format(COIN));
         assertEquals("µĐ999,999.99", symbolThree.format(COIN.subtract(SATOSHI)));
-        assertEquals("µDASH 999,999.99", codedThree.format(COIN.subtract(SATOSHI)));
+        assertEquals("µBCASH 999,999.99", codedThree.format(COIN.subtract(SATOSHI)));
         assertEquals("Đ1,000.000", symbolThree.format(COIN.multiply(1000)));
-        assertEquals("DASH 1,000.000", codedThree.format(COIN.multiply(1000)));
+        assertEquals("BCASH 1,000.000", codedThree.format(COIN.multiply(1000)));
         assertEquals("₥Đ0.001", symbolThree.format(Coin.valueOf(100)));
-        assertEquals("mDASH 0.001", codedThree.format(Coin.valueOf(100)));
+        assertEquals("mBCASH 0.001", codedThree.format(Coin.valueOf(100)));
         assertEquals("µĐ0.50", symbolThree.format(Coin.valueOf(50)));
-        assertEquals("µDASH 0.50", codedThree.format(Coin.valueOf(50)));
+        assertEquals("µBCASH 0.50", codedThree.format(Coin.valueOf(50)));
         assertEquals("µĐ0.49", symbolThree.format(Coin.valueOf(49)));
-        assertEquals("µDASH 0.49", codedThree.format(Coin.valueOf(49)));
+        assertEquals("µBCASH 0.49", codedThree.format(Coin.valueOf(49)));
         assertEquals("µĐ0.01", symbolThree.format(Coin.valueOf(1)));
-        assertEquals("µDASH 0.01", codedThree.format(Coin.valueOf(1)));
+        assertEquals("µBCASH 0.01", codedThree.format(Coin.valueOf(1)));
     }
 
 
     @Test
     public void symbolsCodesTest() {
         BtcFixedFormat coin = (BtcFixedFormat)BtcFormat.getCoinInstance(US);
-        assertEquals("DASH", coin.code());
+        assertEquals("BCASH", coin.code());
         assertEquals("Đ", coin.symbol());
         BtcFixedFormat cent = (BtcFixedFormat)BtcFormat.getInstance(2, US);
-        assertEquals("cDASH", cent.code());
+        assertEquals("cBCASH", cent.code());
         assertEquals("¢Đ", cent.symbol());
         BtcFixedFormat milli = (BtcFixedFormat)BtcFormat.getInstance(3, US);
-        assertEquals("mDASH", milli.code());
+        assertEquals("mBCASH", milli.code());
         assertEquals("₥Đ", milli.symbol());
         BtcFixedFormat micro = (BtcFixedFormat)BtcFormat.getInstance(6, US);
-        assertEquals("µDASH", micro.code());
+        assertEquals("µBCASH", micro.code());
         assertEquals("µĐ", micro.symbol());
         BtcFixedFormat deka = (BtcFixedFormat)BtcFormat.getInstance(-1, US);
-        assertEquals("daDASH", deka.code());
+        assertEquals("daBCASH", deka.code());
         assertEquals("daĐ", deka.symbol());
         BtcFixedFormat hecto = (BtcFixedFormat)BtcFormat.getInstance(-2, US);
-        assertEquals("hDASH", hecto.code());
+        assertEquals("hBCASH", hecto.code());
         assertEquals("hĐ", hecto.symbol());
         BtcFixedFormat kilo = (BtcFixedFormat)BtcFormat.getInstance(-3, US);
-        assertEquals("kDASH", kilo.code());
+        assertEquals("kBCASH", kilo.code());
         assertEquals("kĐ", kilo.symbol());
         BtcFixedFormat mega = (BtcFixedFormat)BtcFormat.getInstance(-6, US);
-        assertEquals("MDASH", mega.code());
+        assertEquals("MBCASH", mega.code());
         assertEquals("MĐ", mega.symbol());
         BtcFixedFormat noSymbol = (BtcFixedFormat)BtcFormat.getInstance(4, US);
         try {
@@ -920,35 +920,35 @@ public class BtcFormatTest {
 
         BtcFixedFormat symbolCoin = (BtcFixedFormat)BtcFormat.builder().locale(US).scale(0).
                                                               symbol("D\u20e6").build();
-        assertEquals("DASH", symbolCoin.code());
+        assertEquals("BCASH", symbolCoin.code());
         assertEquals("D⃦", symbolCoin.symbol());
         BtcFixedFormat symbolCent = (BtcFixedFormat)BtcFormat.builder().locale(US).scale(2).
                                                               symbol("D\u20e6").build();
-        assertEquals("cDASH", symbolCent.code());
+        assertEquals("cBCASH", symbolCent.code());
         assertEquals("¢D⃦", symbolCent.symbol());
         BtcFixedFormat symbolMilli = (BtcFixedFormat)BtcFormat.builder().locale(US).scale(3).
                                                                symbol("D\u20e6").build();
-        assertEquals("mDASH", symbolMilli.code());
+        assertEquals("mBCASH", symbolMilli.code());
         assertEquals("₥D⃦", symbolMilli.symbol());
         BtcFixedFormat symbolMicro = (BtcFixedFormat)BtcFormat.builder().locale(US).scale(6).
                                                                symbol("D\u20e6").build();
-        assertEquals("µDASH", symbolMicro.code());
+        assertEquals("µBCASH", symbolMicro.code());
         assertEquals("µD⃦", symbolMicro.symbol());
         BtcFixedFormat symbolDeka = (BtcFixedFormat)BtcFormat.builder().locale(US).scale(-1).
                                                               symbol("D\u20e6").build();
-        assertEquals("daDASH", symbolDeka.code());
+        assertEquals("daBCASH", symbolDeka.code());
         assertEquals("daD⃦", symbolDeka.symbol());
         BtcFixedFormat symbolHecto = (BtcFixedFormat)BtcFormat.builder().locale(US).scale(-2).
                                                                symbol("D\u20e6").build();
-        assertEquals("hDASH", symbolHecto.code());
+        assertEquals("hBCASH", symbolHecto.code());
         assertEquals("hD⃦", symbolHecto.symbol());
         BtcFixedFormat symbolKilo = (BtcFixedFormat)BtcFormat.builder().locale(US).scale(-3).
                                                               symbol("D\u20e6").build();
-        assertEquals("kDASH", symbolKilo.code());
+        assertEquals("kBCASH", symbolKilo.code());
         assertEquals("kD⃦", symbolKilo.symbol());
         BtcFixedFormat symbolMega = (BtcFixedFormat)BtcFormat.builder().locale(US).scale(-6).
                                                               symbol("D\u20e6").build();
-        assertEquals("MDASH", symbolMega.code());
+        assertEquals("MBCASH", symbolMega.code());
         assertEquals("MD⃦", symbolMega.symbol());
 
         BtcFixedFormat codeCoin = (BtcFixedFormat)BtcFormat.builder().locale(US).scale(0).
@@ -1159,15 +1159,15 @@ public class BtcFormatTest {
 
     @Test
     public void negativeTest() throws Exception {
-        assertEquals("-1,00 DASH", BtcFormat.getInstance(FRANCE).format(COIN.multiply(-1)));
-        assertEquals("DASH -1,00", BtcFormat.getInstance(ITALY).format(COIN.multiply(-1)));
+        assertEquals("-1,00 BCASH", BtcFormat.getInstance(FRANCE).format(COIN.multiply(-1)));
+        assertEquals("BCASH -1,00", BtcFormat.getInstance(ITALY).format(COIN.multiply(-1)));
         assertEquals("Đ -1,00", BtcFormat.getSymbolInstance(ITALY).format(COIN.multiply(-1)));
-        assertEquals("DASH -1.00", BtcFormat.getInstance(JAPAN).format(COIN.multiply(-1)));
+        assertEquals("BCASH -1.00", BtcFormat.getInstance(JAPAN).format(COIN.multiply(-1)));
         assertEquals("Đ-1.00", BtcFormat.getSymbolInstance(JAPAN).format(COIN.multiply(-1)));
-        assertEquals("(DASH 1.00)", BtcFormat.getInstance(US).format(COIN.multiply(-1)));
+        assertEquals("(BCASH 1.00)", BtcFormat.getInstance(US).format(COIN.multiply(-1)));
         assertEquals("(Đ1.00)", BtcFormat.getSymbolInstance(US).format(COIN.multiply(-1)));
-        // assertEquals("DASH -१.००", BtcFormat.getInstance(Locale.forLanguageTag("hi-IN")).format(COIN.multiply(-1)));
-        assertEquals("DASH -๑.๐๐", BtcFormat.getInstance(new Locale("th","TH","TH")).format(COIN.multiply(-1)));
+        // assertEquals("BCASH -१.००", BtcFormat.getInstance(Locale.forLanguageTag("hi-IN")).format(COIN.multiply(-1)));
+        assertEquals("BCASH -๑.๐๐", BtcFormat.getInstance(new Locale("th","TH","TH")).format(COIN.multiply(-1)));
         assertEquals("Đ-๑.๐๐", BtcFormat.getSymbolInstance(new Locale("th","TH","TH")).format(COIN.multiply(-1)));
     }
 
@@ -1208,7 +1208,7 @@ public class BtcFormatTest {
         b = (BtcAutoFormat)BtcFormat.getSymbolInstance(US);
         assertEquals(a, b);
         assertEquals(a.hashCode(), b.hashCode());
-        a.parseObject("mDASH2");
+        a.parseObject("mBCASH2");
         assertEquals(a, b);
         assertEquals(a.hashCode(), b.hashCode());
         b.parseObject("µĐ4.35");
@@ -1269,11 +1269,11 @@ public class BtcFormatTest {
     @Test
     public void attributeTest() throws Exception {
         String codePat = BtcFormat.getCodeInstance(Locale.US).pattern();
-        assertTrue(codePat.contains("DASH") && ! codePat.contains("(^|[^Đ])Đ([^Đ]|$)") && ! codePat.contains("(^|[^¤])¤([^¤]|$)"));
+        assertTrue(codePat.contains("BCASH") && ! codePat.contains("(^|[^Đ])Đ([^Đ]|$)") && ! codePat.contains("(^|[^¤])¤([^¤]|$)"));
         String symPat = BtcFormat.getSymbolInstance(Locale.US).pattern();
-        assertTrue(symPat.contains("Đ") && !symPat.contains("DASH") && !symPat.contains("¤¤"));
+        assertTrue(symPat.contains("Đ") && !symPat.contains("BCASH") && !symPat.contains("¤¤"));
 
-        assertEquals("DASH #,##0.00;(DASH #,##0.00)", BtcFormat.getCodeInstance(Locale.US).pattern());
+        assertEquals("BCASH #,##0.00;(BCASH #,##0.00)", BtcFormat.getCodeInstance(Locale.US).pattern());
         assertEquals("Đ#,##0.00;(Đ#,##0.00)", BtcFormat.getSymbolInstance(Locale.US).pattern());
         assertEquals('0', BtcFormat.getInstance(Locale.US).symbols().getZeroDigit());
         // assertEquals('०', BtcFormat.getInstance(Locale.forLanguageTag("hi-IN")).symbols().getZeroDigit());
@@ -1285,8 +1285,8 @@ public class BtcFormatTest {
     public void toStringTest() {
         assertEquals("Auto-format Đ#,##0.00;(Đ#,##0.00)", BtcFormat.getSymbolInstance(Locale.US).toString());
         assertEquals("Auto-format Đ#,##0.0000;(Đ#,##0.0000)", BtcFormat.getSymbolInstance(Locale.US, 4).toString());
-        assertEquals("Auto-format DASH #,##0.00;(DASH #,##0.00)", BtcFormat.getCodeInstance(Locale.US).toString());
-        assertEquals("Auto-format DASH #,##0.0000;(DASH #,##0.0000)", BtcFormat.getCodeInstance(Locale.US, 4).toString());
+        assertEquals("Auto-format BCASH #,##0.00;(BCASH #,##0.00)", BtcFormat.getCodeInstance(Locale.US).toString());
+        assertEquals("Auto-format BCASH #,##0.0000;(BCASH #,##0.0000)", BtcFormat.getCodeInstance(Locale.US, 4).toString());
         assertEquals("Coin-format #,##0.00", BtcFormat.getCoinInstance(Locale.US).toString());
         assertEquals("Millicoin-format #,##0.00", BtcFormat.getMilliInstance(Locale.US).toString());
         assertEquals("Microcoin-format #,##0.00", BtcFormat.getMicroInstance(Locale.US).toString());
@@ -1313,11 +1313,11 @@ public class BtcFormatTest {
                      BtcFormat.builder().style(SYMBOL).symbol("$").locale(GERMANY).build().toString());
         assertEquals("Auto-format #.##0,0000 $",
                      BtcFormat.builder().style(SYMBOL).symbol("$").fractionDigits(4).locale(GERMANY).build().toString());
-        assertEquals("Auto-format DASH#,00Đ;DASH-#,00Đ",
+        assertEquals("Auto-format BCASH#,00Đ;BCASH-#,00Đ",
                      BtcFormat.builder().style(SYMBOL).locale(GERMANY).pattern("¤¤#¤").build().toString());
-        assertEquals("Coin-format DASH#,00Đ;DASH-#,00Đ",
+        assertEquals("Coin-format BCASH#,00Đ;BCASH-#,00Đ",
                      BtcFormat.builder().scale(0).locale(GERMANY).pattern("¤¤#¤").build().toString());
-        assertEquals("Millicoin-format DASH#.00Đ;DASH-#.00Đ",
+        assertEquals("Millicoin-format BCASH#.00Đ;BCASH-#.00Đ",
                      BtcFormat.builder().scale(3).locale(US).pattern("¤¤#¤").build().toString());
     }
 
@@ -1326,8 +1326,8 @@ public class BtcFormatTest {
         /* The pattern format provided by DecimalFormat includes specification of fractional digits,
          * but we ignore that because we have alternative mechanism for specifying that.. */
         BtcFormat f = BtcFormat.builder().locale(US).scale(3).pattern("¤¤ #.0").fractionDigits(3).build();
-        assertEquals("Millicoin-format DASH #.000;DASH -#.000", f.toString());
-        assertEquals("mDASH 1000.000", f.format(COIN));
+        assertEquals("Millicoin-format BCASH #.000;BCASH -#.000", f.toString());
+        assertEquals("mBCASH 1000.000", f.format(COIN));
     }
 
     @Test
@@ -1389,9 +1389,9 @@ public class BtcFormatTest {
         built = BtcFormat.builder().pattern("¤#,####.#").style(CODE).locale(GERMANY).build();
         assertEquals("Đ-1,00", built.format(COIN.multiply(-1)));
         built = BtcFormat.builder().pattern("¤¤ #,####.#").style(SYMBOL).locale(GERMANY).build();
-        assertEquals("DASH -1,00", built.format(COIN.multiply(-1)));
+        assertEquals("BCASH -1,00", built.format(COIN.multiply(-1)));
         built = BtcFormat.builder().pattern("¤¤##,###.#").scale(3).locale(US).build();
-        assertEquals("mDASH1,000.00", built.format(COIN));
+        assertEquals("mBCASH1,000.00", built.format(COIN));
         built = BtcFormat.builder().pattern("¤ ##,###.#").scale(3).locale(US).build();
         assertEquals("₥Đ 1,000.00", built.format(COIN));
 

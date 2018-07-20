@@ -160,11 +160,11 @@ public class CoinDefinition {
     public static final String TESTNET_SATOSHI_KEY = "04ea1afd3291c97a579580eeb158fe3eadb028eb133c60136e82682290020d93f8510f417e83fcf2dc46a1a3d77d9215126494788b3f0ba6e2401fca7b70085809";
 
     /** The string returned by getId() for the main, production network where people trade things. */
-    public static final String ID_MAINNET = "org.darkcoin.production";
+    public static final String ID_MAINNET = "org.bcashpay.production";
     /** The string returned by getId() for the testnet. */
-    public static final String ID_TESTNET = "org.darkcoin.test";
+    public static final String ID_TESTNET = "org.bcashpay.test";
     /** Unit test network. */
-    public static final String ID_UNITTESTNET = "com.google.darkcoin.unittest";
+    public static final String ID_UNITTESTNET = "com.google.bcashpay.unittest";
 
     //checkpoints.cpp Checkpoints::mapCheckpoints
     public static void initCheckpoints(Map<Integer, Sha256Hash> checkpoints)
@@ -176,7 +176,7 @@ public class CoinDefinition {
     }
 
     //Unit Test Information
-    public static final String UNITTEST_ADDRESS = "XgxQxd6B8iYgEEryemnJrpvoWZ3149MCkK";
-    public static final String UNITTEST_ADDRESS_PRIVATE_KEY = "XDtvHyDHk4S3WJvwjxSANCpZiLLkKzoDnjrcRhca2iLQRtGEz1JZ";
+    public static final String UNITTEST_ADDRESS = "BFGqLZZmKGiyuiwNmkDRACJMa15Ax3jBkg";
+    public static final String UNITTEST_ADDRESS_PRIVATE_KEY = "XHSCHNSJvyfvFgm4NE3o5t4n3Hh8SR7JsryYojajqXxbyFMcaw3v";
 
 }
