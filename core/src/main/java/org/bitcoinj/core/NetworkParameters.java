@@ -136,6 +136,9 @@ public abstract class NetworkParameters {
     }
     //TODO:  put these bytes into the CoinDefinition
     private static Block createGenesis(NetworkParameters n) {
+    	Block genesisBlock = new Block(n, Block.BLOCK_VERSION_GENESIS);
+        Transaction t = new Transaction(n,Utils.HEX.decode(CoinDefinition.genesisRawTx));
+        /*
         Block genesisBlock = new Block(n, Block.BLOCK_VERSION_GENESIS);
         Transaction t = new Transaction(n);
         try {
@@ -154,6 +157,7 @@ public abstract class NetworkParameters {
             // Cannot happen.
             throw new RuntimeException(e);
         }
+        */
         genesisBlock.addTransaction(t);
         return genesisBlock;
     }

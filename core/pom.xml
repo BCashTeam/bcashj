@@ -26,7 +26,7 @@
     </parent>
 
     <artifactId>dashj-core</artifactId>
-
+	<version>0.14.4.4</version>
     <name>dashj</name>
     <description>A Java Dash library</description>
 
