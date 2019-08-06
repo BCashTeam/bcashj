@@ -5384,4 +5384,250 @@ public class Wallet extends BaseTaggableObject
             keyChainGroupLock.unlock();
         }
     }
+    
+    /*******************************************/
+    public SendResult sendCompletedTx(Transaction tx) throws InsufficientMoneyException {
+        TransactionBroadcaster broadcaster = vTransactionBroadcaster;
+        checkState(broadcaster != null, "No transaction broadcaster is configured");
+        commitTx(tx);
+        SendResult result = new SendResult();
+        result.tx = tx;
+        // The tx has been committed to the pending pool by this point (via sendCoinsOffline -> commitTx), so it has
+        // a txConfidenceListener registered. Once the tx is broadcast the peers will update the memory pool with the
+        // count of seen peers, the memory pool will update the transaction confidence object, that will invoke the
+        // txConfidenceListener which will in turn invoke the wallets event listener onTransactionConfidenceChanged
+        // method.
+        result.broadcast = broadcaster.broadcastTransaction(tx);
+        result.broadcastComplete = result.broadcast.future();
+        return result;
+        
+    }
+    public Transaction createSendTransaction(Address fromAddress, Address toAddress, Coin value) throws InsufficientMoneyException {
+		
+		// Init transaction
+		Transaction tx = new Transaction(params);
+		tx.addOutput(value,toAddress);
+		SendRequest req = SendRequest.forTx(tx);
+		
+		//Add Input
+		List<TransactionOutput> unspents = getUnspend(fromAddress,req);
+		Coin valuetoAdd = value;
+		Coin valueWithFee =  value;
+		for(TransactionOutput out : unspents) {
+			tx.addInput(out);
+			
+			if(valuetoAdd.compareTo(out.getValue()) >= 0) {
+				
+				valuetoAdd = valuetoAdd.subtract(out.getValue());
+				
+				continue;
+			}
+			
+			Coin fee = calculateFee(tx);
+			valueWithFee = valuetoAdd.add(fee);
+			
+			if(valueWithFee.compareTo(out.getValue()) <= 0) {
+				break;
+			}
+			
+		}
+		
+		//Add output to return coin back to fromAddress
+		
+		addReturnOutput(tx,fromAddress);
+		
+		return tx;
+		
+		
+	}
+	private void addReturnOutput(Transaction tx, Address fromAddress) throws InsufficientMoneyException {
+		
+		Coin fee = calculateFee(tx);
+		Coin inputSum = tx.getInputSum();
+		Coin outputSum = tx.getOutputSum();
+		
+		if(inputSum.compareTo(outputSum.add(fee)) < 0) {
+			//not enought
+			throw new InsufficientMoneyException(outputSum.subtract(inputSum).add(fee));
+		}
+		
+		if(inputSum.compareTo(outputSum.add(fee)) >0 ) {
+			Coin returnAmount = inputSum.subtract(outputSum).subtract(fee);
+			tx.addOutput(returnAmount, fromAddress);
+		}
+		
+	}
+	/**
+	 * Calculate Fee for pre transaction
+	 * @param tx
+	 * @return
+	 */
+	private  Coin calculateFee(Transaction tx){
+		
+		int size = tx.unsafeBitcoinSerialize().length;
+		if(tx.getOutputs().size() > 0) {
+			size  += tx.getOutput(0).unsafeBitcoinSerialize().length;
+		}
+		
+		Coin fees = Transaction.DEFAULT_TX_FEE.multiply(size).divide(1000);
+		Coin minFee = Coin.valueOf(1000);
+		if(fees.isGreaterThan(minFee)) return fees;
+		return minFee;
+	}
+	 /*
+     * Functions for Bussiness Wallet
+     */
+    public List<TransactionOutput> getUnspend(Address fromAddress,SendRequest req) {
+    	
+    	List<TransactionOutput> candidates = calculateAllSpendCandidates(true, req.missingSigsMode == MissingSigsMode.THROW);
+    	
+		
+		List<TransactionOutput> unspents  = new ArrayList<TransactionOutput>();
+		for(TransactionOutput output: candidates) {
+			if(output.getAddressFromP2PKHScript(params).equals(fromAddress) && output.isAvailableForSpending()) {
+				unspents.add(output);
+			}
+		}
+		return unspents;
+		
+	}
+    
+    public Wallet.SendResult sendCoins(Address fromAddress, Address toAddress, Coin value) throws InsufficientMoneyException {
+		Wallet.SendResult result ;
+		//lock.lock();
+		try {
+			Transaction tx = createSendTransaction( fromAddress,  toAddress,  value);
+			SendRequest sendRequest = SendRequest.forTx(tx) ;
+			completeTxWithoutModify(fromAddress,sendRequest);
+			
+			/*
+			checkArgument(!sendRequest.completed, "Given SendRequest has already been completed.");
+			log.info("Completing send tx with {} outputs totalling {} and a fee of {}/kB", sendRequest.tx.getOutputs().size(),
+                    value.toFriendlyString(), sendRequest.feePerKb.toFriendlyString());
+			
+			if(sendRequest.signInputs) {
+				signTransaction(sendRequest);
+			}
+			sendRequest.tx.getConfidence().setSource(TransactionConfidence.Source.SELF);
+			sendRequest.tx.setPurpose(Transaction.Purpose.USER_PAYMENT);
+			//sendRequest.completed = true;
+			sendRequest.tx.setExchangeRate(sendRequest.exchangeRate);
+			sendRequest.tx.setMemo(sendRequest.memo);
+			sendRequest.completed = true;
+			*/
+			result = sendCompletedTx(sendRequest.tx);
+			
+			return result;
+		}
+		finally {
+			//lock.unlock();
+		}
+		
+	}
+
+    public void completeTxWithoutModify(Address fromAddress, SendRequest req) throws InsufficientMoneyException {
+        lock.lock();
+        try {
+            checkArgument(!req.completed, "Given SendRequest has already been completed.");
+            // Calculate the amount of value we need to import.
+            Coin value = Coin.ZERO;
+            for (TransactionOutput output : req.tx.getOutputs()) {
+                value = value.add(output.getValue());
+            }
+
+            log.info("Completing send tx with {} outputs totalling {} and a fee of {}/kB", req.tx.getOutputs().size(),
+                    value.toFriendlyString(), req.feePerKb.toFriendlyString());
+
+            // If any inputs have already been added, we don't need to get their value from wallet
+            Coin totalInput = Coin.ZERO;
+            for (TransactionInput input : req.tx.getInputs())
+                if (input.getConnectedOutput() != null)
+                    totalInput = totalInput.add(input.getConnectedOutput().getValue());
+                else
+                    log.warn("SendRequest transaction already has inputs but we don't know how much they are worth - they will be added to fee.");
+            value = value.subtract(totalInput);
+
+            List<TransactionInput> originalInputs = new ArrayList<TransactionInput>(req.tx.getInputs());
+
+            // Check for dusty sends and the OP_RETURN limit.
+            if (req.ensureMinRequiredFee && !req.emptyWallet) { // Min fee checking is handled later for emptyWallet.
+                int opReturnCount = 0;
+                for (TransactionOutput output : req.tx.getOutputs()) {
+                    if (output.isDust())
+                        throw new DustySendRequested();
+                    if (output.getScriptPubKey().isOpReturn())
+                        ++opReturnCount;
+                }
+                if (opReturnCount > 1) // Only 1 OP_RETURN per transaction allowed.
+                    throw new MultipleOpReturnRequested();
+            }
+
+            // Calculate a list of ALL potential candidates for spending and then ask a coin selector to provide us
+            // with the actual outputs that'll be used to gather the required amount of value. In this way, users
+            // can customize coin selection policies. The call below will ignore immature coinbases and outputs
+            // we don't have the keys for.
+            List<TransactionOutput> candidates = getUnspend(fromAddress, req);
+
+            CoinSelection bestCoinSelection;
+            TransactionOutput bestChangeOutput = null;
+            if (!req.emptyWallet) {
+                // This can throw InsufficientMoneyException.
+                FeeCalculation feeCalculation = calculateFee(req, value, originalInputs, req.ensureMinRequiredFee, candidates);
+                bestCoinSelection = feeCalculation.bestCoinSelection;
+                bestChangeOutput = feeCalculation.bestChangeOutput;
+            } else {
+                // We're being asked to empty the wallet. What this means is ensuring "tx" has only a single output
+                // of the total value we can currently spend as determined by the selector, and then subtracting the fee.
+                checkState(req.tx.getOutputs().size() == 1, "Empty wallet TX must have a single output only.");
+                CoinSelector selector = req.coinSelector == null ? coinSelector : req.coinSelector;
+                bestCoinSelection = selector.select(params.getMaxMoney(), candidates);
+                candidates = null;  // Selector took ownership and might have changed candidates. Don't access again.
+                req.tx.getOutput(0).setValue(bestCoinSelection.valueGathered);
+                log.info("  emptying {}", bestCoinSelection.valueGathered.toFriendlyString());
+            }
+
+            for (TransactionOutput output : bestCoinSelection.gathered)
+                req.tx.addInput(output);
+
+            if (req.emptyWallet) {
+                final Coin feePerKb = req.feePerKb == null ? Coin.ZERO : req.feePerKb;
+                if (!adjustOutputDownwardsForFee(req.tx, bestCoinSelection, feePerKb, req.ensureMinRequiredFee, req.useInstantSend))
+                    throw new CouldNotAdjustDownwards();
+            }
+
+            if (bestChangeOutput != null) {
+                req.tx.addOutput(bestChangeOutput);
+                log.info("  with {} change", bestChangeOutput.getValue().toFriendlyString());
+            }
+
+            // Now shuffle the outputs to obfuscate which is the change.
+            if (req.shuffleOutputs)
+                req.tx.shuffleOutputs();
+
+            // Now sign the inputs, thus proving that we are entitled to redeem the connected outputs.
+            if (req.signInputs)
+                signTransaction(req);
+
+            // Check size.
+            final int size = req.tx.unsafeBitcoinSerialize().length;
+            if (size > Transaction.MAX_STANDARD_TX_SIZE)
+                throw new ExceededMaxTransactionSize();
+
+            // Label the transaction as being self created. We can use this later to spend its change output even before
+            // the transaction is confirmed. We deliberately won't bother notifying listeners here as there's not much
+            // point - the user isn't interested in a confidence transition they made themselves.
+            req.tx.getConfidence().setSource(TransactionConfidence.Source.SELF);
+            // Label the transaction as being a user requested payment. This can be used to render GUI wallet
+            // transaction lists more appropriately, especially when the wallet starts to generate transactions itself
+            // for internal purposes.
+            req.tx.setPurpose(Transaction.Purpose.USER_PAYMENT);
+            // Record the exchange rate that was valid when the transaction was completed.
+            req.tx.setExchangeRate(req.exchangeRate);
+            req.tx.setMemo(req.memo);
+            req.completed = true;
+            log.info("  completed: {}", req.tx);
+        } finally {
+            lock.unlock();
+        }
+    }
 }
