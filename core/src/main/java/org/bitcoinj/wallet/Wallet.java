@@ -5440,6 +5440,44 @@ public class Wallet extends BaseTaggableObject
 		
 		
 	}
+    public Transaction createSendTransaction(Address fromAddress, Address toAddress, Coin value,Coin fee) throws InsufficientMoneyException {
+		
+		// Init transaction
+		Transaction tx = new Transaction(params);
+		tx.addOutput(value,toAddress);
+		SendRequest req = SendRequest.forTx(tx);
+		
+		//Add Input
+		List<TransactionOutput> unspents = getUnspend(fromAddress,req);
+		Coin valuetoAdd = value;
+		Coin valueWithFee =  value;
+		for(TransactionOutput out : unspents) {
+			tx.addInput(out);
+			
+			if(valuetoAdd.compareTo(out.getValue()) >= 0) {
+				
+				valuetoAdd = valuetoAdd.subtract(out.getValue());
+				
+				continue;
+			}
+			
+			//Coin fee = calculateFee(tx);
+			valueWithFee = valuetoAdd.add(fee);
+			
+			if(valueWithFee.compareTo(out.getValue()) <= 0) {
+				break;
+			}
+			
+		}
+		
+		//Add output to return coin back to fromAddress
+		
+		addReturnOutput(tx,fromAddress);
+		
+		return tx;
+		
+		
+	}
 	private void addReturnOutput(Transaction tx, Address fromAddress) throws InsufficientMoneyException {
 		
 		Coin fee = calculateFee(tx);
@@ -5500,21 +5538,26 @@ public class Wallet extends BaseTaggableObject
 			SendRequest sendRequest = SendRequest.forTx(tx) ;
 			completeTxWithoutModify(fromAddress,sendRequest);
 			
-			/*
-			checkArgument(!sendRequest.completed, "Given SendRequest has already been completed.");
-			log.info("Completing send tx with {} outputs totalling {} and a fee of {}/kB", sendRequest.tx.getOutputs().size(),
-                    value.toFriendlyString(), sendRequest.feePerKb.toFriendlyString());
 			
-			if(sendRequest.signInputs) {
-				signTransaction(sendRequest);
-			}
-			sendRequest.tx.getConfidence().setSource(TransactionConfidence.Source.SELF);
-			sendRequest.tx.setPurpose(Transaction.Purpose.USER_PAYMENT);
-			//sendRequest.completed = true;
-			sendRequest.tx.setExchangeRate(sendRequest.exchangeRate);
-			sendRequest.tx.setMemo(sendRequest.memo);
-			sendRequest.completed = true;
-			*/
+			result = sendCompletedTx(sendRequest.tx);
+			
+			return result;
+		}
+		finally {
+			//lock.unlock();
+		}
+		
+	}
+    
+    public Wallet.SendResult sendCoins(Address fromAddress, Address toAddress, Coin value, Coin fee) throws InsufficientMoneyException {
+		Wallet.SendResult result ;
+		//lock.lock();
+		try {
+			Transaction tx = createSendTransaction( fromAddress,  toAddress,  value, fee);
+			SendRequest sendRequest = SendRequest.forTx(tx) ;
+			completeTxWithoutModify(fromAddress,sendRequest);
+			
+			
 			result = sendCompletedTx(sendRequest.tx);
 			
 			return result;
